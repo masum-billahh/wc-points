@@ -25,7 +25,6 @@ class PCP_DB {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta( $sql );
 
-        // Store plugin version
         update_option( 'pcp_db_version', PCP_VERSION );
     }
 }

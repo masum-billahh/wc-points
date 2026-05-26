@@ -1,0 +1,173 @@
+/* PlayChamp Points — Frontend Styles */
+
+/* ── Thank You Page ─────────────────────────────────────────────────── */
+.pcp-thankyou-box {
+    background: linear-gradient(135deg, #fff7ed 0%, #fffbeb 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    font-family: inherit;
+}
+.pcp-thankyou-box h3 {
+    margin-top: 0;
+    color: #92400e;
+}
+.pcp-points-earned-banner {
+    background: #f59e0b;
+    color: #fff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+.pcp-points-earned-banner strong { font-size: 1.15rem; }
+
+.pcp-form-row {
+    margin-bottom: 14px;
+}
+.pcp-form-row label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #374151;
+}
+.pcp-form-row input[type="text"],
+.pcp-form-row input[type="email"],
+.pcp-form-row input[type="password"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.pcp-form-row input:focus {
+    outline: none;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,.15);
+}
+.pcp-btn-register {
+    background: #f59e0b;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background .2s;
+}
+.pcp-btn-register:hover { background: #d97706; }
+.pcp-skip { margin-top: 10px; font-size: .85rem; }
+.pcp-skip a { color: #9ca3af; }
+
+/* ── Checkout Redeem ────────────────────────────────────────────────── */
+.pcp-checkout-redeem {
+    background: #f0fdf4;
+    border: 2px solid #22c55e;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+.pcp-checkout-redeem h3 { margin-top: 0; color: #15803d; font-size: 1rem; }
+.pcp-btn-redeem {
+    background: #22c55e;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+    margin-top: 6px;
+}
+.pcp-btn-redeem:hover { background: #16a34a; }
+.pcp-btn-redeem.pcp-active { background: #dc2626; }
+.pcp-btn-redeem.pcp-active:hover { background: #b91c1c; }
+
+/* ── My Account Dashboard ───────────────────────────────────────────── */
+.pcp-dashboard {
+    font-family: inherit;
+    margin-bottom: 30px;
+}
+.pcp-balance-card {
+    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.pcp-balance-card .pcp-points-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+}
+.pcp-balance-card .pcp-points-label { opacity: .85; font-size: .9rem; }
+.pcp-balance-card .pcp-taka-val { font-size: 1.1rem; opacity: .9; }
+.pcp-tier-badge {
+    margin-left: auto;
+    font-size: 1.5rem;
+    background: rgba(255,255,255,.15);
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+
+/* Tier table */
+.pcp-tier-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.pcp-tier-table th, .pcp-tier-table td {
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+    font-size: .9rem;
+}
+.pcp-tier-table th { background: #f9fafb; font-weight: 700; }
+.pcp-tier-table tr.pcp-current-tier { background: #fffbeb; }
+.pcp-tier-table tr.pcp-current-tier td:first-child::after { content: ' ← You'; color: #f59e0b; font-weight:700; }
+
+/* History */
+.pcp-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88rem;
+}
+.pcp-history-table th, .pcp-history-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f3f4f6;
+    text-align: left;
+}
+.pcp-history-table th { font-weight: 700; color: #374151; background: #f9fafb; }
+.pcp-pts-positive { color: #16a34a; font-weight: 700; }
+.pcp-pts-negative { color: #dc2626; font-weight: 700; }
+
+/* Referral box */
+.pcp-referral-box {
+    background: #f5f3ff;
+    border: 2px solid #a78bfa;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 20px;
+}
+.pcp-referral-box h3 { margin-top: 0; color: #5b21b6; }
+
+/* Section headings */
+.pcp-section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 20px 0 10px;
+    color: #1f2937;
+    border-left: 4px solid #f59e0b;
+    padding-left: 10px;
+}
