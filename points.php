@@ -1,17 +1,17 @@
 <?php
 /**
  * Plugin Name: PlayChamp BD Points & Referral
- * Plugin URI:  https://playchampbd.com
+ * Plugin URI:  https://playchamp.net
  * Description: Loyalty points, referral system, tiers, and thank-you page registration prompt for WooCommerce.
- * Version:     1.0.0
- * Author:      PlayChamp BD
+ * Version:     1.1.0
+ * Author:      Masum
  * Text Domain: playchamp-points
  * Requires Plugins: woocommerce
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'PCP_VERSION',  '1.0.0' );
+define( 'PCP_VERSION',  '1.1.0' );
 define( 'PCP_PATH',     plugin_dir_path( __FILE__ ) );
 define( 'PCP_URL',      plugin_dir_url( __FILE__ ) );
 define( 'PCP_TABLE',    'pcp_points_log' );
@@ -24,6 +24,7 @@ require_once PCP_PATH . 'includes/class-pcp-tiers.php';
 require_once PCP_PATH . 'includes/class-pcp-thankyou.php';
 require_once PCP_PATH . 'includes/class-pcp-checkout.php';
 require_once PCP_PATH . 'admin/class-pcp-admin.php';
+require_once PCP_PATH . 'includes/class-pcp-myaccount.php';
 
 register_activation_hook( __FILE__, array( 'PCP_DB', 'install' ) );
 
@@ -41,4 +42,5 @@ add_action( 'plugins_loaded', function() {
     PCP_ThankYou::init();
     PCP_Checkout::init();
     PCP_Admin::init();
+    PCP_MyAccount::init();
 });

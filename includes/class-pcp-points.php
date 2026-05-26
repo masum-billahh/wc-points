@@ -6,7 +6,6 @@ class PCP_Points {
     public static function init() {
         add_action( 'woocommerce_order_status_completed', array( __CLASS__, 'award_order_points' ) );
         add_action( 'wp_enqueue_scripts',                 array( __CLASS__, 'enqueue_scripts' ) );
-        add_action( 'woocommerce_before_my_account',      array( __CLASS__, 'display_points_dashboard' ) );
         add_action( 'comment_post',                       array( __CLASS__, 'maybe_award_review_points' ), 10, 2 );
         add_action( 'user_register',                      array( __CLASS__, 'award_signup_bonus' ) );
     }
@@ -141,17 +140,4 @@ class PCP_Points {
         return (int) floor($taka / $rate);
     }
 
-    // ── My Account dashboard ──────────────────────────────────────────
-
-    public static function display_points_dashboard() {
-        if ( ! is_user_logged_in() ) return;
-        $user_id = get_current_user_id();
-        $balance = self::get_balance($user_id);
-        $taka    = self::points_to_taka($balance);
-        $tier    = PCP_Tiers::get_tier($user_id);
-        $history = self::get_history($user_id, 10);
-        $ref_url = PCP_Referral::get_referral_url($user_id);
-
-        include PCP_PATH . 'public/templates/my-account-dashboard.php';
-    }
 }

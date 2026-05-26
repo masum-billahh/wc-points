@@ -1,38 +1,207 @@
-/* PlayChamp Points — Frontend Styles */
+/* ═══════════════════════════════════════════════════════
+   PlayChamp Points — Frontend Styles  v2
+═══════════════════════════════════════════════════════ */
 
-/* ── Thank You Page ─────────────────────────────────────────────────── */
+/* ── Shared ─────────────────────────────────────────── */
+.pcp-section-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 28px 0 12px;
+    padding-left: 12px;
+    border-left: 4px solid #f59e0b;
+    color: #111827;
+}
+
+/* ── My Account Points Page ─────────────────────────── */
+.pcp-page { font-family: inherit; max-width: 720px; }
+
+/* Hero */
+.pcp-hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #6d28d9 100%);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    color: #fff;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+.pcp-hero__left { flex: 1 1 180px; }
+.pcp-hero__label { margin: 0 0 4px; opacity: .75; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; }
+.pcp-hero__pts   { margin: 0 0 4px; font-size: 3rem; font-weight: 800; line-height: 1; }
+.pcp-hero__pts span { font-size: 1.2rem; font-weight: 400; opacity: .7; }
+.pcp-hero__taka  { margin: 0; opacity: .85; font-size: .95rem; }
+.pcp-hero__right { flex: 1 1 200px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.pcp-hero__next  { margin: 0; font-size: .85rem; opacity: .85; text-align: right; }
+
+.pcp-tier-pill {
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .9rem;
+    letter-spacing: .02em;
+}
+.pcp-tier-champ  { background: rgba(255,255,255,.15); }
+.pcp-tier-pro    { background: #fbbf24; color: #78350f; }
+.pcp-tier-legend { background: #fde68a; color: #78350f; }
+
+.pcp-progressbar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,.2);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.pcp-progressbar__fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width .6s ease;
+}
+.pcp-progressbar__fill--champ  { background: #fbbf24; }
+.pcp-progressbar__fill--pro    { background: #a78bfa; }
+
+/* Tier cards */
+.pcp-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.pcp-tier-card {
+    position: relative;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px 14px;
+    text-align: center;
+    background: #fff;
+    transition: transform .15s, box-shadow .15s;
+}
+.pcp-tier-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+.pcp-tier-card--active { border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.15); }
+.pcp-tier-card--legend.pcp-tier-card--active { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,.15); }
+.pcp-tier-card__you {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f59e0b;
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.pcp-tier-card--legend .pcp-tier-card__you { background: #7c3aed; }
+.pcp-tier-card__icon  { font-size: 1.4rem; margin-bottom: 6px; }
+.pcp-tier-card__pts   { font-size: .8rem; color: #6b7280; margin-bottom: 4px; }
+.pcp-tier-card__multi { font-size: 1.1rem; font-weight: 800; color: #1f2937; margin-bottom: 6px; }
+.pcp-tier-card__perks { font-size: .78rem; color: #6b7280; line-height: 1.4; }
+
+/* Earn grid */
+.pcp-earn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.pcp-earn-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.pcp-earn-card__icon { font-size: 1.5rem; }
+.pcp-earn-card strong { font-size: .9rem; color: #111827; }
+.pcp-earn-card p { margin: 0; font-size: .82rem; color: #6b7280; line-height: 1.4; }
+
+/* Referral */
+.pcp-referral {
+    background: #f5f3ff;
+    border: 2px solid #a78bfa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 8px;
+}
+.pcp-referral p { margin: 0 0 12px; font-size: .9rem; color: #4c1d95; }
+.pcp-referral__row { display: flex; gap: 8px; }
+.pcp-referral__row input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #a78bfa;
+    border-radius: 8px;
+    font-size: .85rem;
+    background: #fff;
+    min-width: 0;
+}
+.pcp-referral__btn {
+    padding: 10px 18px;
+    background: #7c3aed;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: .85rem;
+    white-space: nowrap;
+    transition: background .2s;
+}
+.pcp-referral__btn:hover { background: #6d28d9; }
+
+/* History */
+.pcp-history { display: flex; flex-direction: column; gap: 2px; }
+.pcp-history__row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 4px;
+    border-bottom: 1px solid #f3f4f6;
+}
+.pcp-history__row:last-child { border-bottom: none; }
+.pcp-history__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+.pcp-history__icon--in  { background: #dcfce7; color: #16a34a; }
+.pcp-history__icon--out { background: #fee2e2; color: #dc2626; }
+.pcp-history__info { flex: 1; min-width: 0; }
+.pcp-history__info strong { display: block; font-size: .88rem; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pcp-history__info small  { color: #9ca3af; font-size: .78rem; }
+.pcp-history__pts { font-weight: 800; font-size: 1rem; white-space: nowrap; }
+.pcp-pts--in  { color: #16a34a; }
+.pcp-pts--out { color: #dc2626; }
+
+/* ── Thank You Page ─────────────────────────────────── */
 .pcp-thankyou-box {
     background: linear-gradient(135deg, #fff7ed 0%, #fffbeb 100%);
     border: 2px solid #f59e0b;
     border-radius: 12px;
     padding: 24px;
     margin: 24px 0;
-    font-family: inherit;
 }
-.pcp-thankyou-box h3 {
-    margin-top: 0;
-    color: #92400e;
-}
+.pcp-thankyou-box h3 { margin-top: 0; color: #92400e; }
 .pcp-points-earned-banner {
     background: #f59e0b;
     color: #fff;
     border-radius: 8px;
     padding: 14px 18px;
     margin-bottom: 20px;
-    font-size: 1.05rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.7;
 }
-.pcp-points-earned-banner strong { font-size: 1.15rem; }
-
-.pcp-form-row {
-    margin-bottom: 14px;
-}
-.pcp-form-row label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 4px;
-    color: #374151;
-}
+.pcp-form-row { margin-bottom: 14px; }
+.pcp-form-row label { display: block; font-weight: 600; margin-bottom: 4px; color: #374151; font-size: .9rem; }
 .pcp-form-row input[type="text"],
 .pcp-form-row input[type="email"],
 .pcp-form-row input[type="password"] {
@@ -40,134 +209,40 @@
     max-width: 400px;
     padding: 10px 12px;
     border: 1px solid #d1d5db;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
 }
-.pcp-form-row input:focus {
-    outline: none;
-    border-color: #f59e0b;
-    box-shadow: 0 0 0 3px rgba(245,158,11,.15);
-}
+.pcp-form-row input:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.15); }
 .pcp-btn-register {
-    background: #f59e0b;
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background .2s;
+    background: #f59e0b; color: #fff; border: none;
+    padding: 12px 24px; border-radius: 8px;
+    font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; transition: background .2s;
 }
 .pcp-btn-register:hover { background: #d97706; }
 .pcp-skip { margin-top: 10px; font-size: .85rem; }
 .pcp-skip a { color: #9ca3af; }
 
-/* ── Checkout Redeem ────────────────────────────────────────────────── */
+/* ── Checkout Redeem ─────────────────────────────────── */
 .pcp-checkout-redeem {
-    background: #f0fdf4;
-    border: 2px solid #22c55e;
-    border-radius: 10px;
-    padding: 18px 20px;
-    margin-bottom: 20px;
+    background: #f0fdf4; border: 2px solid #22c55e;
+    border-radius: 10px; padding: 18px 20px; margin-bottom: 20px;
 }
 .pcp-checkout-redeem h3 { margin-top: 0; color: #15803d; font-size: 1rem; }
 .pcp-btn-redeem {
-    background: #22c55e;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 7px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background .2s;
-    margin-top: 6px;
+    background: #22c55e; color: #fff; border: none;
+    padding: 10px 20px; border-radius: 7px;
+    font-size: .95rem; font-weight: 700; cursor: pointer; transition: background .2s; margin-top: 6px;
 }
 .pcp-btn-redeem:hover { background: #16a34a; }
 .pcp-btn-redeem.pcp-active { background: #dc2626; }
 .pcp-btn-redeem.pcp-active:hover { background: #b91c1c; }
 
-/* ── My Account Dashboard ───────────────────────────────────────────── */
-.pcp-dashboard {
-    font-family: inherit;
-    margin-bottom: 30px;
-}
-.pcp-balance-card {
-    background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
-    color: #fff;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-.pcp-balance-card .pcp-points-num {
-    font-size: 2.5rem;
-    font-weight: 800;
-    line-height: 1;
-}
-.pcp-balance-card .pcp-points-label { opacity: .85; font-size: .9rem; }
-.pcp-balance-card .pcp-taka-val { font-size: 1.1rem; opacity: .9; }
-.pcp-tier-badge {
-    margin-left: auto;
-    font-size: 1.5rem;
-    background: rgba(255,255,255,.15);
-    padding: 10px 18px;
-    border-radius: 8px;
-}
-
-/* Tier table */
-.pcp-tier-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-.pcp-tier-table th, .pcp-tier-table td {
-    padding: 10px 14px;
-    border: 1px solid #e5e7eb;
-    text-align: left;
-    font-size: .9rem;
-}
-.pcp-tier-table th { background: #f9fafb; font-weight: 700; }
-.pcp-tier-table tr.pcp-current-tier { background: #fffbeb; }
-.pcp-tier-table tr.pcp-current-tier td:first-child::after { content: ' ← You'; color: #f59e0b; font-weight:700; }
-
-/* History */
-.pcp-history-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: .88rem;
-}
-.pcp-history-table th, .pcp-history-table td {
-    padding: 8px 12px;
-    border-bottom: 1px solid #f3f4f6;
-    text-align: left;
-}
-.pcp-history-table th { font-weight: 700; color: #374151; background: #f9fafb; }
-.pcp-pts-positive { color: #16a34a; font-weight: 700; }
-.pcp-pts-negative { color: #dc2626; font-weight: 700; }
-
-/* Referral box */
-.pcp-referral-box {
-    background: #f5f3ff;
-    border: 2px solid #a78bfa;
-    border-radius: 10px;
-    padding: 18px 20px;
-    margin-top: 20px;
-}
-.pcp-referral-box h3 { margin-top: 0; color: #5b21b6; }
-
-/* Section headings */
-.pcp-section-title {
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 20px 0 10px;
-    color: #1f2937;
-    border-left: 4px solid #f59e0b;
-    padding-left: 10px;
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 600px) {
+    .pcp-tiers    { grid-template-columns: 1fr; }
+    .pcp-earn-grid { grid-template-columns: 1fr; }
+    .pcp-hero     { flex-direction: column; }
+    .pcp-hero__right { align-items: flex-start; width: 100%; }
+    .pcp-hero__pts { font-size: 2.2rem; }
 }
