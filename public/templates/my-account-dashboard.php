@@ -55,7 +55,7 @@ $tiers = PCP_Tiers::get_all_tiers_display();
         $needed = $pro_min - $total_earned;
         $pct    = min( 100, round( ($total_earned / $pro_min) * 100 ) );
         ?>
-        <p>🥈 Pro Champ হতে আরও <strong><?php echo number_format($needed); ?> পয়েন্ট</strong> দরকার।</p>
+        <p>🥈 Pro Champ হতে আরও <strong><?php echo number_format($needed); ?> পয়েন্ট</strong> অর্জন করতে হবে (মোট অর্জিত: <?php echo number_format($total_earned); ?>)</p>
         <div style="background:#e5e7eb;border-radius:999px;height:10px;margin-bottom:20px;">
             <div style="background:#f59e0b;width:<?php echo $pct; ?>%;height:100%;border-radius:999px;"></div>
         </div>
@@ -63,7 +63,7 @@ $tiers = PCP_Tiers::get_all_tiers_display();
         $needed = $legend_min - $total_earned;
         $pct    = min( 100, round( (($total_earned - $pro_min) / ($legend_min - $pro_min)) * 100 ) );
         ?>
-        <p>🥇 Legend হতে আরও <strong><?php echo number_format($needed); ?> পয়েন্ট</strong> দরকার।</p>
+        <p>🥇 Legend হতে আরও <strong><?php echo number_format($needed); ?> পয়েন্ট</strong> দরকার।  (মোট অর্জিত: <?php echo number_format($total_earned); ?>)</p>
         <div style="background:#e5e7eb;border-radius:999px;height:10px;margin-bottom:20px;">
             <div style="background:#7c3aed;width:<?php echo $pct; ?>%;height:100%;border-radius:999px;"></div>
         </div>
