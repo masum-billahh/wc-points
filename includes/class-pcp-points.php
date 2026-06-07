@@ -12,7 +12,7 @@ class PCP_Points {
         add_action( 'woocommerce_store_api_checkout_order_processed', array( __CLASS__, 'maybe_assign_order_to_user' ) );
 
         add_action( 'wp_enqueue_scripts',                 array( __CLASS__, 'enqueue_scripts' ) );
-        add_action( 'comment_post',                       array( __CLASS__, 'maybe_award_review_points' ), 10, 2 );
+        add_action( 'transition_comment_status',          array( __CLASS__, 'maybe_award_review_points' ), 10, 3 );
         add_action( 'user_register',                      array( __CLASS__, 'award_signup_bonus' ) );
 
         // AJAX: paginated points history
@@ -225,28 +225,34 @@ class PCP_Points {
      * Fix: WooCommerce product reviews have comment_type = '' (empty),
      * not 'review'. Check post_type instead.
      */
-    public static function maybe_award_review_points( $comment_id, $comment_approved ) {
-        if ( ! $comment_approved ) return;
+    public static function maybe_award_review_points($new_status, $old_status, $comment) {
 
-        $comment = get_comment( $comment_id );
-        if ( ! $comment ) return;
+		// Only when it becomes approved
+		if ($new_status !== 'approved') return;
 
-        // WooCommerce reviews are on 'product' posts; comment_type is empty string
-        $post = get_post( $comment->comment_post_ID );
-        if ( ! $post || $post->post_type !== 'product' ) return;
+		// WooCommerce product reviews only
+		$post = get_post($comment->comment_post_ID);
+		if (!$post || $post->post_type !== 'product') return;
 
-        $user_id = (int) $comment->user_id;
-        if ( ! $user_id ) return;
+		$user_id = (int) $comment->user_id;
+		if (!$user_id) return;
 
-        // Guard against duplicate awards
-        if ( get_comment_meta( $comment_id, '_pcp_review_points_awarded', true ) ) return;
+		// prevent duplicates
+		if (get_comment_meta($comment->comment_ID, '_pcp_review_points_awarded', true)) return;
 
-        $pts = (int) PCP_Settings::get('review_points');
-        if ( $pts > 0 ) {
-            self::add_points( $user_id, $pts, 'review', 'Product review points', $comment->comment_post_ID );
-            update_comment_meta( $comment_id, '_pcp_review_points_awarded', 1 );
-        }
-    }
+		$pts = (int) PCP_Settings::get('review_points');
+		if ($pts <= 0) return;
+
+		self::add_points(
+			$user_id,
+			$pts,
+			'review',
+			'Product review points',
+			$comment->comment_post_ID
+		);
+
+		update_comment_meta($comment->comment_ID, '_pcp_review_points_awarded', 1);
+	}
 
     // ── Value helpers ─────────────────────────────────────────────────
 
