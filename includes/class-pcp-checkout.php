@@ -4,41 +4,29 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class PCP_Checkout {
 
     public static function init() {
-        // Show points balance + redeem option on checkout page
-        add_action( 'woocommerce_before_order_notes', array( __CLASS__, 'render_redeem_section' ) );
-
-        // Apply points discount via session
-        add_action( 'woocommerce_cart_calculate_fees', array( __CLASS__, 'apply_points_discount' ) );
-
-        // AJAX: toggle points redemption
-        add_action( 'wp_ajax_pcp_toggle_redeem', array( __CLASS__, 'handle_toggle_redeem' ) );
-
-        // Clear session after order placed
-        add_action( 'woocommerce_thankyou', array( __CLASS__, 'clear_redeem_session' ) );
-
-        // Deduct points after order is placed
+        add_action( 'woocommerce_before_order_notes',    array( __CLASS__, 'render_redeem_section' ) );
+        add_action( 'woocommerce_cart_calculate_fees',   array( __CLASS__, 'apply_points_discount' ) );
+        add_action( 'wp_ajax_pcp_toggle_redeem',         array( __CLASS__, 'handle_toggle_redeem' ) );
+        add_action( 'woocommerce_thankyou',              array( __CLASS__, 'clear_redeem_session' ) );
         add_action( 'woocommerce_checkout_order_created', array( __CLASS__, 'deduct_on_order_created' ) );
     }
 
-    // -------------------------------------------------------------------------
-    // Render the redeem section on checkout
-    // -------------------------------------------------------------------------
+    // ── Render redeem section ──────────────────────────────────────────
 
     public static function render_redeem_section( $checkout ) {
         if ( ! is_user_logged_in() ) return;
 
-        $user_id  = get_current_user_id();
-        $balance  = PCP_Points::get_balance( $user_id );
+        $user_id     = get_current_user_id();
+        $balance     = PCP_Points::get_balance( $user_id );
         if ( $balance <= 0 ) return;
 
-        $taka_value    = PCP_Points::points_to_taka( $balance );
-        $cart_total    = WC()->cart->get_subtotal();
-        $max_percent   = (int) PCP_Settings::get( 'max_redeem_percent' );
-        $max_taka      = floor( $cart_total * ( $max_percent / 100 ) );
-        $redeemable    = min( $taka_value, $max_taka );
-        $redeemable_pts = PCP_Points::taka_to_points( $redeemable );
-        $is_applied    = WC()->session->get( 'pcp_redeem_active' );
-
+        $taka_value      = PCP_Points::points_to_taka( $balance );
+        $cart_total      = WC()->cart->get_subtotal();
+        $max_percent     = (int) PCP_Settings::get('max_redeem_percent');
+        $max_taka        = floor( $cart_total * ( $max_percent / 100 ) );
+        $redeemable      = min( $taka_value, $max_taka );
+        $redeemable_pts  = PCP_Points::taka_to_points( $redeemable );
+        $is_applied      = WC()->session->get('pcp_redeem_active');
         ?>
         <div class="pcp-checkout-redeem" id="pcp-checkout-redeem">
             <h3>🏆 আপনার পয়েন্ট ব্যালেন্স: <strong><?php echo $balance; ?> পয়েন্ট</strong> (≈ <?php echo number_format($taka_value, 0); ?> টাকা)</h3>
@@ -60,34 +48,33 @@ class PCP_Checkout {
         <?php
     }
 
-    // -------------------------------------------------------------------------
-    // Apply discount fee to cart
-    // -------------------------------------------------------------------------
+    // ── Apply discount ─────────────────────────────────────────────────
 
     public static function apply_points_discount( $cart ) {
         if ( ! is_user_logged_in() ) return;
-        if ( ! WC()->session->get( 'pcp_redeem_active' ) ) return;
+        if ( ! WC()->session->get('pcp_redeem_active') ) return;
 
-        $user_id      = get_current_user_id();
-        $balance      = PCP_Points::get_balance( $user_id );
-        $taka_value   = PCP_Points::points_to_taka( $balance );
-        $cart_total   = $cart->get_subtotal();
-        $max_percent  = (int) PCP_Settings::get( 'max_redeem_percent' );
-        $max_taka     = floor( $cart_total * ( $max_percent / 100 ) );
-        $discount     = min( $taka_value, $max_taka );
+        $user_id     = get_current_user_id();
+        $balance     = PCP_Points::get_balance( $user_id );
+        $taka_value  = PCP_Points::points_to_taka( $balance );
+        $cart_total  = $cart->get_subtotal();
+        $max_percent = (int) PCP_Settings::get('max_redeem_percent');
+        $max_taka    = floor( $cart_total * ( $max_percent / 100 ) );
+        $discount    = min( $taka_value, $max_taka );
 
         if ( $discount > 0 ) {
             $cart->add_fee( '🏆 পয়েন্ট ছাড়', -$discount, false );
-            // Store how much was redeemed in session for later deduction
             WC()->session->set( 'pcp_redeem_taka', $discount );
         }
     }
 
-    // -------------------------------------------------------------------------
-    // AJAX toggle
-    // -------------------------------------------------------------------------
+    // ── AJAX toggle ────────────────────────────────────────────────────
 
     public static function handle_toggle_redeem() {
+        // Require login for toggling
+        if ( ! is_user_logged_in() ) {
+            wp_send_json_error( array('message' => 'Not logged in') );
+        }
         check_ajax_referer( 'pcp_nonce', 'nonce' );
 
         $active = (int) ( $_POST['active'] ?? 0 );
@@ -96,22 +83,27 @@ class PCP_Checkout {
             WC()->session->set( 'pcp_redeem_taka', 0 );
         }
 
-        wp_send_json_success( array( 'active' => $active ) );
+        wp_send_json_success( array('active' => $active) );
     }
 
-    // -------------------------------------------------------------------------
-    // Deduct points when order is created
-    // -------------------------------------------------------------------------
+    // ── Deduct on order created ────────────────────────────────────────
 
     public static function deduct_on_order_created( $order ) {
-        if ( ! is_user_logged_in() ) return;
+        // Resolve order object
+        if ( ! $order instanceof WC_Abstract_Order ) {
+            $order = wc_get_order( $order );
+        }
+        if ( ! $order ) return;
 
-        $taka = (float) WC()->session->get( 'pcp_redeem_taka', 0 );
+        $user_id = $order->get_customer_id();
+        if ( ! $user_id ) return; // Guest orders — no deduction
+
+        $taka = (float) WC()->session->get('pcp_redeem_taka', 0);
         if ( $taka <= 0 ) return;
 
-        $user_id = get_current_user_id();
-        $pts     = PCP_Points::taka_to_points( $taka );
+        $pts = PCP_Points::taka_to_points( $taka );
 
+        // deduct_points() internally clamps to available balance
         PCP_Points::deduct_points(
             $user_id,
             $pts,
@@ -120,7 +112,7 @@ class PCP_Checkout {
             $order->get_id()
         );
 
-        // Store on order for reference
+        // HPOS-compatible order meta
         $order->update_meta_data( '_pcp_points_redeemed', $pts );
         $order->update_meta_data( '_pcp_taka_discount',   $taka );
         $order->save();
@@ -129,9 +121,7 @@ class PCP_Checkout {
         WC()->session->set( 'pcp_redeem_taka',   0 );
     }
 
-    // -------------------------------------------------------------------------
-    // Clear session after thank you page loads
-    // -------------------------------------------------------------------------
+    // ── Clear session ──────────────────────────────────────────────────
 
     public static function clear_redeem_session( $order_id ) {
         WC()->session->set( 'pcp_redeem_active', 0 );

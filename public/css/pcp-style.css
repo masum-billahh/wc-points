@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   PlayChamp Points — Frontend Styles  v2
+   PlayChamp Points — Frontend Styles  v2.1
 ═══════════════════════════════════════════════════════ */
 
 /* ── Shared ─────────────────────────────────────────── */
@@ -58,8 +58,8 @@
     border-radius: 999px;
     transition: width .6s ease;
 }
-.pcp-progressbar__fill--champ  { background: #fbbf24; }
-.pcp-progressbar__fill--pro    { background: #a78bfa; }
+.pcp-progressbar__fill--champ { background: #fbbf24; }
+.pcp-progressbar__fill--pro   { background: #a78bfa; }
 
 /* Tier cards */
 .pcp-tiers {
@@ -153,7 +153,7 @@
 .pcp-referral__btn:hover { background: #6d28d9; }
 
 /* History */
-.pcp-history { display: flex; flex-direction: column; gap: 2px; }
+.pcp-history { display: flex; flex-direction: column; gap: 2px; transition: opacity .2s; }
 .pcp-history__row {
     display: flex;
     align-items: center;
@@ -181,6 +181,41 @@
 .pcp-history__pts { font-weight: 800; font-size: 1rem; white-space: nowrap; }
 .pcp-pts--in  { color: #16a34a; }
 .pcp-pts--out { color: #dc2626; }
+
+/* History pagination */
+.pcp-history-pagination {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+    padding: 12px 0;
+}
+.pcp-page-btn {
+    padding: 8px 18px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    color: #374151;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+}
+.pcp-page-btn:hover:not(:disabled) {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+.pcp-page-btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+#pcp-history-page-info {
+    font-size: .85rem;
+    color: #6b7280;
+    min-width: 60px;
+    text-align: center;
+}
 
 /* ── Thank You Page ─────────────────────────────────── */
 .pcp-thankyou-box {
@@ -240,9 +275,11 @@
 
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 600px) {
-    .pcp-tiers    { grid-template-columns: 1fr; }
+    .pcp-tiers     { grid-template-columns: 1fr; }
     .pcp-earn-grid { grid-template-columns: 1fr; }
-    .pcp-hero     { flex-direction: column; }
+    .pcp-hero      { flex-direction: column; }
     .pcp-hero__right { align-items: flex-start; width: 100%; }
     .pcp-hero__pts { font-size: 2.2rem; }
+    .pcp-history-pagination { gap: 8px; }
+    .pcp-page-btn  { padding: 8px 12px; font-size: .8rem; }
 }
