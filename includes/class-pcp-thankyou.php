@@ -34,12 +34,16 @@ class PCP_ThankYou {
         $billing_phone = $order->get_billing_phone();
         ?>
         <div class="pcp-thankyou-box" id="pcp-register-box">
-            <div class="pcp-points-earned-banner">
-                🎉 এই অর্ডার থেকে আপনি পাচ্ছেন <strong><?php echo $order_pts; ?> পয়েন্ট</strong>
-                + নতুন অ্যাকাউন্ট বোনাস <strong><?php echo $signup_bonus; ?> পয়েন্ট</strong>
-                = মোট <strong><?php echo $total_pts; ?> পয়েন্ট</strong>
-                (মূল্য ≈ <?php echo $taka_value; ?> টাকা ছাড়)
-            </div>
+			<div class="pcp-points-earned-banner">
+				🎉 এই অর্ডার থেকে আপনি পাচ্ছেন <strong><?php echo $order_pts; ?> পয়েন্ট</strong>
+
+				<?php if ($signup_bonus > 0) : ?>
+					+ নতুন অ্যাকাউন্ট বোনাস <strong><?php echo $signup_bonus; ?> পয়েন্ট</strong>
+				<?php endif; ?>
+
+				= মোট <strong><?php echo $total_pts; ?> পয়েন্ট</strong>
+				(মূল্য ≈ <?php echo $taka_value; ?> টাকা ছাড়)
+			</div>
 
             <h3>🏆 পয়েন্ট পেতে এখনই অ্যাকাউন্ট তৈরি করুন!</h3>
             <p>মাত্র ৩০ সেকেন্ডের কাজ — ফোন নম্বর আগেই আছে, শুধু পাসওয়ার্ড দিন।</p>

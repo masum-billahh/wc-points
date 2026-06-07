@@ -100,7 +100,7 @@ class PCP_Referral {
         echo '<h3>🎁 বন্ধুকে রেফার করুন</h3>';
         echo '<p>বন্ধু যোগ দিলে <strong>' . $share_pts . ' পয়েন্ট</strong>, আর কিনলে আরও <strong>' . $purchase_pts . ' পয়েন্ট</strong> পাবেন!</p>';
         echo '<input type="text" readonly value="' . esc_attr($url) . '" onclick="this.select()" style="width:100%;padding:8px;margin:8px 0;">';
-        echo '<button onclick="navigator.clipboard.writeText(\'' . esc_js($url) . '\');this.textContent=\'✅ Copied!\'" class="button">লিংক কপি করুন</button>';
+        echo '<button onclick="navigator.clipboard.writeText(\'' . esc_js($url) . '\');this.textContent=\'Copied!\'" class="button">লিংক কপি করুন</button>';
         echo '</div>';
     }
 }
