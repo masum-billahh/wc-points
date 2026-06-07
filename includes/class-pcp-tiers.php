@@ -74,12 +74,18 @@ class PCP_Tiers {
     // ── Display data for templates ────────────────────────────────────
 
     public static function get_all_tiers_display() {
+		
+		$base_taka = (int) PCP_Settings::get('taka_per_earn');
+		$base_points = (float) PCP_Settings::get('points_per_taka');
+		
         $free_shipping_active = (int) PCP_Settings::get('tier_legend_free_shipping');
 
-        $legend_perks  = PCP_Settings::get('tier_legend_earn_multiplier') . 'x পয়েন্ট';
-        if ( $free_shipping_active ) {
-            $legend_perks .= ' + ফ্রি শিপিং';
-        }
+				$legend_perks = 'প্রতি ' . $base_taka . ' টাকায় ' .
+            ($base_points * (float) PCP_Settings::get('tier_legend_earn_multiplier')) . ' পয়েন্ট';
+
+		if ( $free_shipping_active ) {
+			$legend_perks .= ' + ফ্রি শিপিং';
+		}
 
         return array(
             array(
@@ -96,15 +102,17 @@ class PCP_Tiers {
                 'min'        => (int) PCP_Settings::get('tier_pro_min'),
                 'max'        => (int) PCP_Settings::get('tier_legend_min') - 1,
                 'multiplier' => PCP_Settings::get('tier_pro_earn_multiplier') . 'x',
-                'perks'      => PCP_Settings::get('tier_pro_earn_multiplier') . 'x পয়েন্ট প্রতিটি অর্ডারে',
+                'perks' => 'প্রতি ' . $base_taka . ' টাকায় ' .
+            ($base_points * (float) PCP_Settings::get('tier_pro_earn_multiplier')) . ' পয়েন্ট',
             ),
+			
             array(
                 'slug'       => 'legend',
                 'label'      => PCP_Settings::tier_label('legend'),
                 'min'        => (int) PCP_Settings::get('tier_legend_min'),
                 'max'        => null,
                 'multiplier' => PCP_Settings::get('tier_legend_earn_multiplier') . 'x',
-                'perks'      => $legend_perks,
+                'perks' => $legend_perks,
             ),
         );
     }

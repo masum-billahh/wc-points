@@ -50,7 +50,7 @@ $total_pages  = (int) ceil( $history_total / $per_page );
                 <div class="pcp-progressbar__fill pcp-progressbar__fill--<?php echo esc_attr($tier['slug']); ?>" style="width:<?php echo $pct; ?>%"></div>
             </div>
             <?php else : ?>
-            <p class="pcp-hero__next">🎉 সর্বোচ্চ Tier!<?php if ( (int) PCP_Settings::get('tier_legend_free_shipping') ) echo ' ফ্রি শিপিং চালু আছে।'; ?></p>
+            <p class="pcp-hero__next">🎉 সর্বোচ্চ Tier!<?php if ( (int) PCP_Settings::get('tier_legend_free_shipping') ) echo ' ফ্রি শিপিং Enjoy করুন'; ?></p>
             <?php endif; ?>
         </div>
     </div>
@@ -87,19 +87,19 @@ $total_pages  = (int) ceil( $history_total / $per_page );
         <div class="pcp-earn-card">
             <span class="pcp-earn-card__icon">👥</span>
             <strong>রেফার করুন</strong>
-            <p>বন্ধু যোগ দিলে <?php echo $share_pts; ?> + কিনলে আরও <?php echo $purchase_pts; ?> পয়েন্ট</p>
+            <p>বন্ধু অ্যাকাউন্ট খুললেে <?php echo $share_pts; ?> + অর্ডার কমপ্লিট করলে আরও <?php echo $purchase_pts; ?> পয়েন্ট</p>
         </div>
         <div class="pcp-earn-card">
             <span class="pcp-earn-card__icon">🎁</span>
             <strong>রেফারেল বোনাস</strong>
-            <p>রেফারেল লিংকে যোগ দিলে <?php echo $friend_pts; ?> পয়েন্ট</p>
+            <p>রেফারেল লিংক থেকে অ্যাকাউন্ট খুললে <?php echo $friend_pts; ?> পয়েন্ট</p>
         </div>
     </div>
 
     <!-- ── Referral ────────────────────────────────────────────── -->
     <h3 class="pcp-section-heading">🔗 আপনার রেফারেল লিংক</h3>
     <div class="pcp-referral">
-        <p>বন্ধুকে এই লিংক পাঠান এবং তারা যোগ দিলে ও কিনলে পয়েন্ট পান।</p>
+        <p>এই লিংকটি আপনার বন্ধুকে পাঠান, তারা অ্যাকাউন্ট খুলে কেনাকাটা করলে আপনি পয়েন্ট পাবেন।</p>
         <div class="pcp-referral__row">
             <input type="text" readonly id="pcp-ref-input" value="<?php echo esc_attr($ref_url); ?>" onclick="this.select()">
             <button onclick="navigator.clipboard.writeText('<?php echo esc_js($ref_url); ?>');this.textContent=' Copied!';setTimeout(()=>this.textContent='কপি করুন',2000);" class="pcp-referral__btn">কপি করুন</button>
