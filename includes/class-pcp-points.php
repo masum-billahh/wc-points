@@ -181,7 +181,12 @@ class PCP_Points {
         // HPOS-compatible guard — use order meta, not post meta
         if ( $order->get_meta( '_pcp_points_awarded' ) ) return;
 
-        $total  = $order->get_subtotal();
+        $fee_total = 0;
+        foreach ( $order->get_fees() as $fee ) {
+            $fee_total += (float) $fee->get_total();
+        }
+        $total = max( 0.0, $order->get_subtotal() - $order->get_discount_total() + $fee_total );
+		
         $rate   = (float) PCP_Settings::get('points_per_taka');
         $per    = (float) PCP_Settings::get('taka_per_earn');
         $points = (int) floor( ($total / $per) * $rate );

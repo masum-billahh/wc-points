@@ -51,7 +51,13 @@ class PCP_Checkout {
 	
 	public static function render_points_preview() {
 		$user_id  = get_current_user_id();
-		$total    = WC()->cart->get_subtotal();
+		
+		$fee_total = 0;
+		foreach ( WC()->cart->get_fees() as $fee ) {
+			$fee_total += (float) $fee->amount;
+		}
+		$total = max( 0.0, WC()->cart->get_subtotal() - WC()->cart->get_discount_total() + $fee_total );
+		
 		$rate     = (float) PCP_Settings::get('points_per_taka');
 		$per      = (float) PCP_Settings::get('taka_per_earn');
 

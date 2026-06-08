@@ -3,7 +3,7 @@
  * Plugin Name: User Retention - Points & Referral
  * Plugin URI:  https://playchamp.net
  * Description: Loyalty points, referral system, tiers, and thank-you page registration prompt for WooCommerce.
- * Version:     1.3.0
+ * Version:     1.4.0
  * Author:      Masum
  * Text Domain: playchamp-points
  * Requires Plugins: woocommerce
@@ -11,7 +11,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'PCP_VERSION',  '1.3.0' );
+define( 'PCP_VERSION',  '1.4.0' );
 define( 'PCP_PATH',     plugin_dir_path( __FILE__ ) );
 define( 'PCP_URL',      plugin_dir_url( __FILE__ ) );
 define( 'PCP_TABLE',    'pcp_points_log' );
