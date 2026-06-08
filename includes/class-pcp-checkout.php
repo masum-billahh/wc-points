@@ -24,8 +24,8 @@ class PCP_Checkout {
         $taka_value      = PCP_Points::points_to_taka( $balance );
         $cart_total      = WC()->cart->get_subtotal();
         $max_percent     = (int) PCP_Settings::get('max_redeem_percent');
-        $max_taka        = floor( $cart_total * ( $max_percent / 100 ) );
-        $redeemable      = min( $taka_value, $max_taka );
+        $max_taka = floor( $cart_total * ( $max_percent / 100 ) );
+		$redeemable = floor( min( $taka_value, $max_taka ) );
         $redeemable_pts  = PCP_Points::taka_to_points( $redeemable );
         $is_applied      = WC()->session->get('pcp_redeem_active');
         ?>
@@ -80,7 +80,7 @@ class PCP_Checkout {
         $cart_total  = $cart->get_subtotal();
         $max_percent = (int) PCP_Settings::get('max_redeem_percent');
         $max_taka    = floor( $cart_total * ( $max_percent / 100 ) );
-        $discount    = min( $taka_value, $max_taka );
+        $discount 	 = floor( min( $taka_value, $max_taka ) );
 
         if ( $discount > 0 ) {
             $cart->add_fee( '🏆 পয়েন্ট ছাড়', -$discount, false );
