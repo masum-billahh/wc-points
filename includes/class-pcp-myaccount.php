@@ -40,6 +40,15 @@ class PCP_MyAccount {
         $history      = PCP_Points::get_history( $user_id, 10, 0 );
         $history_total = PCP_Points::get_history_count( $user_id );
         $ref_url      = PCP_Referral::get_referral_url( $user_id );
+		
+		global $wpdb;
+		$table             = $wpdb->prefix . PCP_TABLE;
+		$total_earned_all  = (int) $wpdb->get_var( $wpdb->prepare(
+			"SELECT COALESCE(SUM(points),0) FROM {$table} WHERE user_id=%d AND points>0", $user_id
+		));
+		$total_redeemed    = abs( (int) $wpdb->get_var( $wpdb->prepare(
+			"SELECT COALESCE(SUM(points),0) FROM {$table} WHERE user_id=%d AND type='redeem'", $user_id
+		)));
 
         include PCP_PATH . 'public/templates/my-account-points.php';
     }

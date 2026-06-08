@@ -5,6 +5,7 @@ class PCP_Checkout {
 
     public static function init() {
         add_action( 'woocommerce_before_order_notes',    array( __CLASS__, 'render_redeem_section' ) );
+		add_action( 'woocommerce_review_order_before_submit', array( __CLASS__, 'render_points_preview' ) );
         add_action( 'woocommerce_cart_calculate_fees',   array( __CLASS__, 'apply_points_discount' ) );
         add_action( 'wp_ajax_pcp_toggle_redeem',         array( __CLASS__, 'handle_toggle_redeem' ) );
         add_action( 'woocommerce_thankyou',              array( __CLASS__, 'clear_redeem_session' ) );
@@ -47,6 +48,25 @@ class PCP_Checkout {
         </div>
         <?php
     }
+	
+	public static function render_points_preview() {
+		$user_id  = get_current_user_id();
+		$total    = WC()->cart->get_subtotal();
+		$rate     = (float) PCP_Settings::get('points_per_taka');
+		$per      = (float) PCP_Settings::get('taka_per_earn');
+
+		// Apply tier multiplier for logged-in users
+		$multiplier = $user_id ? PCP_Tiers::get_earn_multiplier( $user_id ) : 1.0;
+		$points     = (int) floor( ($total / $per) * $rate * $multiplier );
+		$taka_value = PCP_Points::points_to_taka( $points );
+
+		if ( $points <= 0 ) return;
+
+		echo '<div style="background:#f0fdf4;border:1px solid #22c55e;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:.9rem;color:#15803d;">'
+			. '🏆 এই অর্ডার থেকে আপনি <strong>' . $points . ' পয়েন্ট</strong> পাবেন'
+			. ' (≈ <strong>' . number_format($taka_value, 0) . ' টাকা</strong> ছাড়) — পরের অর্ডারে ব্যবহার করতে পারবেন।'
+			. '</div>';
+	}
 
     // ── Apply discount ─────────────────────────────────────────────────
 

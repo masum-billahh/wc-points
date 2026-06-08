@@ -5,7 +5,7 @@ jQuery(function($){
         e.preventDefault();
 
         var btn = $(this).find('button[type=submit]');
-        btn.prop('disabled', true).text('⏳ প্রসেস হচ্ছে...');
+        btn.prop('disabled', true).text('প্রসেস হচ্ছে...');
 
         var data = {
             action:       'pcp_register_from_thankyou',
@@ -20,15 +20,15 @@ jQuery(function($){
 
         $.post(pcp_data.ajax_url, data, function(res){
             if(res.success){
-                $('#pcp-register-form').hide();
+                $('#pcp-register-box').children(':not(#pcp-register-success)').hide();
                 $('#pcp-register-success').fadeIn();
             } else {
-                btn.prop('disabled', false).text('✅ অ্যাকাউন্ট তৈরি করুন ও পয়েন্ট নিন');
-                alert('❌ ' + (res.data.message || 'একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।'));
+                btn.prop('disabled', false).text('অ্যাকাউন্ট তৈরি করুন ও পয়েন্ট নিন');
+                alert('' + (res.data.message || 'একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।'));
             }
         }).fail(function(){
-            btn.prop('disabled', false).text('✅ অ্যাকাউন্ট তৈরি করুন ও পয়েন্ট নিন');
-            alert('❌ সংযোগ সমস্যা। পুনরায় চেষ্টা করুন।');
+            btn.prop('disabled', false).text('অ্যাকাউন্ট তৈরি করুন ও পয়েন্ট নিন');
+            alert('সংযোগ সমস্যা। পুনরায় চেষ্টা করুন।');
         });
     });
 
@@ -79,14 +79,16 @@ jQuery(function($){
         var nonce        = $pagination.data('nonce');
         var $list        = $('#pcp-history-list');
         var $prevBtn     = $('#pcp-history-prev');
-        var $nextBtn     = $('#pcp-history-next');
-        var $pageInfo    = $('#pcp-history-page-info');
+		var $firstBtn    = $('#pcp-history-first');
+		var $nextBtn     = $('#pcp-history-next');
+		var $pageInfo    = $('#pcp-history-page-info');
 
-        function updatePaginationUI() {
-            $prevBtn.prop('disabled', currentPage <= 1);
-            $nextBtn.prop('disabled', currentPage >= totalPages);
-            $pageInfo.text(currentPage + ' / ' + totalPages);
-        }
+		function updatePaginationUI() {
+			$prevBtn.prop('disabled', currentPage <= 1);
+			$firstBtn.prop('disabled', currentPage <= 1);
+			$nextBtn.prop('disabled', currentPage >= totalPages);
+			$pageInfo.text(currentPage + ' / ' + totalPages);
+		}
 
         function loadPage(page) {
             $list.css('opacity', '0.5');
@@ -118,6 +120,10 @@ jQuery(function($){
         $prevBtn.on('click', function(){
             if(currentPage > 1) loadPage(currentPage - 1);
         });
+		
+		$firstBtn.on('click', function(){
+			if(currentPage > 1) loadPage(1);
+		});
 
         $nextBtn.on('click', function(){
             if(currentPage < totalPages) loadPage(currentPage + 1);
